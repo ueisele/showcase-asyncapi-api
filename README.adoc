@@ -12,3 +12,10 @@ curl -u ${CC_SR_API_KEY}:${CC_SR_API_KEY_SECRET} -H "Content-Type: application/v
 ----
 curl -u ${CC_SR_API_KEY}:${CC_SR_API_KEY_SECRET} https://psrc-xm8wx.eu-central-1.aws.confluent.cloud/subjects/lightmeasured-event-v1-value/versions/1
 ----
+
+== Publish AsyncAPIs
+
+[source,bash]
+----
+ASYNCAPI_JSON="$(yq eval -j asyncapi/de/novatec/streetlight/v1/Streetlight.g1.yaml)"
+----
