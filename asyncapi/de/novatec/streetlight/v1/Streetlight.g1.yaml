@@ -26,16 +26,16 @@ servers:
     - creds: []
 
 channels:
-  lightmeasured-v1:
+  lightmeasured-event-v1:
     bindings:
       kafka:
-        x-partitions: 8
+        x-partitions: 4
     publish:
       summary: Inform about environmental lighting conditions for a particular streetlight.
       operationId: onLightMeasured
       message:
-        name: lightMeasured-v1
-        title: Light Measured v1
+        name: lightMeasured-event-v1
+        title: Light Measured Event v1
         contentType: avro/binary
         schemaFormat: application/vnd.apache.avro+json;version=1.9.0
         x-schema-url: "https://raw.githubusercontent.com/ueisele/showcase-asyncapi-api/main/schema/de/novatec/streetlight/measured/v1/LightMeasuredEvent.g1.avsc"
@@ -55,13 +55,52 @@ channels:
               ce_specversion: "1.0"
               ce_id: "{{uuid()}}"
               ce_source: "/streetlight/550e8400-e29b-11d4-a716-446655440000"
-              ce_type: "de.novatec.streetlight.v1"
+              ce_type: "de.novatec.streetlight.measured.v1.LightMeasuredEvent"
               ce_time: "{{now(yyyy-MM-dd'T'HH:mm:SS'Z')}}"
               content-type: application/avro
             payload:
               id: "550e8400-e29b-11d4-a716-446655440000"
               lumen: 780
-              sentAt: "2021-10-30T10:38:17Z"
+              sentat: "2021-10-30T10:38:17Z"
+  
+  lightperiod-command-v1:
+    bindings:
+      kafka:
+        x-partitions: 4
+    subscribe:
+      summary: Set a light period for a streetlight.
+      operationId: publishLightPeriod
+      message:
+        name: lightperiod-command-v1
+        title: Light Period Command v1
+        contentType: avro/binary
+        schemaFormat: application/vnd.apache.avro+json;version=1.9.0
+        x-schema-url: "https://raw.githubusercontent.com/ueisele/showcase-asyncapi-api/main/schema/de/novatec/streetlight/period/v1/LightPeriodCommand.g1.avsc"
+        payload:
+          $ref: 'https://raw.githubusercontent.com/ueisele/showcase-asyncapi-api/main/schema/de/novatec/streetlight/period/v1/LightPeriodCommand.g1.avsc'
+        bindings:
+          kafka:
+            key:
+              type: string
+              description: Id of the streetlight.
+            bindingVersion: '0.2.0'
+        traits:
+          - $ref: 'https://raw.githubusercontent.com/microcks/microcks-quickstarters/main/cloud/cloudevents/cloudevents-v1.0.1-asyncapi-trait.yml'            
+        examples:
+          - summary: Example for Streetlight Light Period Command
+            headers:
+              ce_specversion: "1.0"
+              ce_id: "{{uuid()}}"
+              ce_source: "/streetlight-controller/30ad5b6e-3a99-11ec-8d3d-0242ac130003"
+              ce_type: "de.novatec.streetlight.period.v1.LightPeriodCommand"
+              ce_time: "{{now(yyyy-MM-dd'T'HH:mm:SS'Z')}}"
+              content-type: application/avro
+            payload:
+              id: "550e8400-e29b-11d4-a716-446655440000"
+              enabled: true
+              maxlumen: 780
+              fromearliest: "16:00:00Z"
+              untillatest: "07:00:00Z"
 
 components:
   securitySchemes:

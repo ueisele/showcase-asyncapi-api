@@ -1,0 +1,32 @@
+{
+  "namespace": "de.novatec.streetlight.period.v1",
+  "name": "LightPeriodCommand",
+  "type": "record",
+  "fields": [
+    {
+      "name" : "id",
+      "type": {"type": "string", "logicalType": "uuid"},
+      "doc": "Id of the streetlight as UUID."
+    },
+    {
+      "name" : "enabled",
+      "type": "boolean",
+      "doc": "Indicates if the streetlight is enabled."
+    },    
+    {
+      "name" : "maxlumens",
+      "type": "int",
+      "doc": "The maximum light intensity in lumens."
+    },
+    {
+      "name" : "fromearliest",
+      "type": "string",
+      "doc": "The time at which the streetlight is switched on at the earliest, in ISO 8601 format e.g 16:00:00Z."
+    },
+    {
+      "name" : "untillatest",
+      "type": "string",
+      "doc": "The time at which the streetlight is switched of at the latest, in ISO 8601 format e.g 07:00:00Z."
+    }
+  ]
+}

@@ -6,7 +6,7 @@
     {
       "name" : "id",
       "type": {"type": "string", "logicalType": "uuid"},
-      "doc": "Id of the streetlight."
+      "doc": "Id of the streetlight as UUID."
     },
     {
       "name" : "lumens",
@@ -14,9 +14,9 @@
       "doc": "Light intensity measured in lumens."
     },
     {
-      "name": "sentAt",
-      "type": {"type": "long", "logicalType": "timestamp-micros"},
-      "doc": "Date and time when the message was sent."
+      "name": "sentat",
+      "type": {"type": "long", "logicalType": "timestamp-millis"},
+      "doc": "Date and time when the message was sent in milliseconds from the unix epoch, 1 January 1970 00:00:00.000 UTC."
     }
   ]
 }
