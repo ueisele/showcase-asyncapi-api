@@ -48,7 +48,7 @@ channels:
               description: Id of the streetlight.
             bindingVersion: '0.2.0'
         traits:
-          - $ref: 'https://raw.githubusercontent.com/microcks/microcks-quickstarters/main/cloud/cloudevents/cloudevents-v1.0.1-asyncapi-trait.yml'            
+          - $ref: 'https://raw.githubusercontent.com/ueisele/showcase-asyncapi-api/main/supplements/kafka/cloudevents-v1.0.1-asyncapi-trait.yml'            
         examples:
           - summary: Example for Streetlight LightMeasured Event
             headers:
@@ -85,7 +85,7 @@ channels:
               description: Id of the streetlight.
             bindingVersion: '0.2.0'
         traits:
-          - $ref: 'https://raw.githubusercontent.com/microcks/microcks-quickstarters/main/cloud/cloudevents/cloudevents-v1.0.1-asyncapi-trait.yml'            
+          - $ref: 'https://raw.githubusercontent.com/ueisele/showcase-asyncapi-api/main/supplements/kafka/cloudevents-v1.0.1-asyncapi-trait.yml'            
         examples:
           - summary: Example for Streetlight Light Period Command
             headers:
