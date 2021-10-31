@@ -1,0 +1,14 @@
+= Showcase AsyncAPI APIs and Schemas
+
+== Publish Schemas
+
+[source,bash]
+----
+SR_SCHEMA_JSON="$(echo "{\"schema\":null}" | jq --arg schema "$(cat schema/de/novatec/streetlight/measured/v1/LightMeasuredEvent.avsc)" '.schema=$schema')"
+curl -u ${CC_SR_API_KEY}:${CC_SR_API_KEY_SECRET} -H "Content-Type: application/vnd.schemaregistry.v1+json" -X POST -d"${SR_SCHEMA_JSON}" https://psrc-xm8wx.eu-central-1.aws.confluent.cloud/subjects/lightmeasured-v1-value/versions
+----
+
+[source,bash]
+----
+curl -u ${CC_SR_API_KEY}:${CC_SR_API_KEY_SECRET} https://psrc-xm8wx.eu-central-1.aws.confluent.cloud/subjects/lightmeasured-v1-value/versions/1
+----
