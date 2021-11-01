@@ -19,3 +19,13 @@ curl -u ${CC_SR_API_KEY}:${CC_SR_API_KEY_SECRET} https://psrc-xm8wx.eu-central-1
 ----
 ASYNCAPI_JSON="$(yq eval -j asyncapi/de/novatec/streetlight/v1/Streetlight.g1.yaml)"
 ----
+
+[source,bash]
+----
+jq '.channels | to_entries[] | { topic: .key, valueschema: .value | to_entries[].value.message?.payload."$ref" | select(. != null) }' <<<$ASYNCAPI_JSON
+----
+
+[source,bash]
+----
+jq '.channels | to_entries[] | { topic: .key, schemas: [{schema: (.value | to_entries[].value.message?.payload."$ref" | select(. != null)), type: "value"}] }' <<<$ASYNCAPI_JSON
+----

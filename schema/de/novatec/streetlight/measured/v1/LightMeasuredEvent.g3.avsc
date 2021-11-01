@@ -1,0 +1,36 @@
+{
+  "namespace": "de.novatec.streetlight.measured.v1",
+  "name": "LightMeasuredEvent",
+  "type": "record",
+  "fields": [
+    {
+      "name" : "id",
+      "type": {"type": "string", "logicalType": "uuid"},
+      "doc": "Id of the streetlight as UUID."
+    },
+    {
+      "name" : "lumens",
+      "type": "int",
+      "doc": "Light intensity measured in lumens."
+    },
+    {
+      "name": "sentat",
+      "type": {"type": "long", "logicalType": "timestamp-millis"},
+      "doc": "Date and time when the message was sent in milliseconds from the unix epoch, 1 January 1970 00:00:00.000 UTC."
+    },
+    {
+      "name" : "longitude",
+      "aliases": ["long"],
+      "type": ["double", "null"],
+      "doc": "Longitude of the streetlight.",
+      "default": null
+    },
+    {
+      "name" : "latitude",
+      "aliases": ["lat"],
+      "type": ["double", "null"],
+      "doc": "Latitude of the streetlight.",
+      "default": null
+    }
+  ]
+}
