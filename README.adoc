@@ -1,16 +1,21 @@
 = Showcase AsyncAPI APIs and Schemas
 
-== Publish Schemas
+== Register Schemas
+
+Register all schemas which are referenced in AsyncAPI definitions at Confluent Schema Registry:
 
 [source,bash]
 ----
-SR_SCHEMA_JSON="$(echo "{\"schema\":null}" | jq --arg schema "$(cat schema/de/novatec/streetlight/measured/v1/LightMeasuredEvent.avsc)" '.schema=$schema')"
-curl -u ${CC_SR_API_KEY}:${CC_SR_API_KEY_SECRET} -H "Content-Type: application/vnd.schemaregistry.v1+json" -X POST -d"${SR_SCHEMA_JSON}" https://psrc-xm8wx.eu-central-1.aws.confluent.cloud/subjects/lightmeasured-event-v1-value/versions
+scripts/register-schemas-confluent.sh \
+    --schema-registry-url https://psrc-xm8wx.eu-central-1.aws.confluent.cloud \
+    --basic-auth "${CC_SR_API_KEY}:${CC_SR_API_KEY_SECRET}"
 ----
+
+Show all existing subjects:
 
 [source,bash]
 ----
-curl -u ${CC_SR_API_KEY}:${CC_SR_API_KEY_SECRET} https://psrc-xm8wx.eu-central-1.aws.confluent.cloud/subjects/lightmeasured-event-v1-value/versions/1
+curl -u "${CC_SR_API_KEY}:${CC_SR_API_KEY_SECRET}" https://psrc-xm8wx.eu-central-1.aws.confluent.cloud/subjects
 ----
 
 == Publish AsyncAPIs
@@ -18,14 +23,4 @@ curl -u ${CC_SR_API_KEY}:${CC_SR_API_KEY_SECRET} https://psrc-xm8wx.eu-central-1
 [source,bash]
 ----
 ASYNCAPI_JSON="$(yq eval -j asyncapi/de/novatec/streetlight/v1/Streetlight.g1.yaml)"
-----
-
-[source,bash]
-----
-jq '.channels | to_entries[] | { topic: .key, valueschema: .value | to_entries[].value.message?.payload."$ref" | select(. != null) }' <<<$ASYNCAPI_JSON
-----
-
-[source,bash]
-----
-jq '.channels | to_entries[] | { topic: .key, schemas: [{schema: (.value | to_entries[].value.message?.payload."$ref" | select(. != null)), type: "value"}] }' <<<$ASYNCAPI_JSON
 ----
