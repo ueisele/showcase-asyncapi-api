@@ -1,6 +1,6 @@
 = Showcase AsyncAPI APIs and Schemas
 
-== Register Schemas
+== Register Schemas at Confluent Schema Registry
 
 Register all Avro schemas which are referenced in AsyncAPI definitions at Confluent Schema Registry:
 
@@ -18,7 +18,7 @@ Show all existing subjects:
 curl -u "${CC_SR_API_KEY}:${CC_SR_API_KEY_SECRET}" https://psrc-xm8wx.eu-central-1.aws.confluent.cloud/subjects
 ----
 
-== Register AsyncAPIs
+== Register AsyncAPIs at Apicurio Registry
 
 Register all AsyncAPIs at Apicurio Registry:
 
@@ -35,9 +35,18 @@ Show all existing artifacts:
 curl http://localhost:8080/apis/registry/v2/groups/default/artifacts
 ----
 
-SHow all versions of a specific artifact:
+Show all versions of a specific artifact:
 
 [source,bash]
 ----
 curl http://localhost:8080/apis/registry/v2/groups/default/artifacts/urn:de.novatec.streetlight.v1/versions
+----
+
+== Register AsyncAPIs at AsyncAPI Directory
+
+Register all AsyncAPIs at AsyncAPI Discovery:
+
+[source,bash]
+----
+scripts/register-asyncapi-directory.sh --asyncapi-directory-url http://localhost:8080
 ----

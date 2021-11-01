@@ -45,10 +45,10 @@ function register_schema_confluent_topic () {
     else
         schema_json="$(cat "${schema_file}" | jq -c .)"
     fi
-    local confluent_schema_json="$(echo "{\"schema\":null}" | jq -c --arg schema "${schema_json}" '.schema=$schema')"
+    local confluent_schema_json="$(echo "{}" | jq -c --arg schema "${schema_json}" '{schema:$schema}')"
     local url="$(register_schema_confluent_url "${topic}" "${kind}")"
     echo -e "\nRegister schema ${schema_file} at ${url}"
-    curl $([ -n "${BASIC_AUTH}" ] && echo -u "${BASIC_AUTH}") \
+    curl -f $([ -n "${BASIC_AUTH}" ] && echo -u "${BASIC_AUTH}") \
         -X POST \
         -H "Content-Type: application/vnd.schemaregistry.v1+json" \
         -d"${confluent_schema_json}" \
