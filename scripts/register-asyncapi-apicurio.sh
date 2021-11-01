@@ -43,7 +43,7 @@ function artifactid_from_path () {
     local asyncapi_file="${1:?Requires AsyncAPI file as first parameter!}"
     local relative_path="$(realpath --relative-base "${ASYNCAPI_DIR}" "${asyncapi_file}")"
     local id_base="${relative_path%%.*}"
-    local artifactid="urn:${id_base//\//.}"
+    local artifactid="urn:${id_base//\//:}"
     echo "${artifactid}"
 }
 

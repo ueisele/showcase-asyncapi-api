@@ -1,18 +1,18 @@
 asyncapi: '2.2.0'
 
-id: 'urn:de.novatec.streetlight.v1'
+id: 'urn:de:novatec:streetlight:v1'
 
 info:
   title: Streetlight API
-  version: '1.0.0'
+  version: '1.4.0'
   description: |
     The Streetlight API allows you to remotely manage the city lights.
   contact:
     name: Streetlight API Support
     url: https://github.com/ueisele/showcase-asyncapi-api
-    email: enceladus@uweeisele.eu
+    email: enceladus@future-light-x10.eu
     x-project-name: Future Light X10
-    x-team-name: Team Enceladus
+    x-team-name: Enceladus
   license:
     name: Apache 2.0
     url: 'https://www.apache.org/licenses/LICENSE-2.0'
@@ -46,9 +46,9 @@ channels:
         title: Light Measured Event v1
         contentType: avro/binary
         schemaFormat: application/vnd.apache.avro+json;version=1.9.0
-        x-schema-url: "https://raw.githubusercontent.com/ueisele/showcase-asyncapi-api/main/schema/de/novatec/streetlight/measured/v1/LightMeasuredEvent.g1.avsc"
+        x-schema-url: "https://raw.githubusercontent.com/ueisele/showcase-asyncapi-api/main/schema/de/novatec/streetlight/measured/v1/LightMeasuredEvent.g3.avsc"
         payload:
-          $ref: 'https://raw.githubusercontent.com/ueisele/showcase-asyncapi-api/main/schema/de/novatec/streetlight/measured/v1/LightMeasuredEvent.g1.avsc'
+          $ref: 'https://raw.githubusercontent.com/ueisele/showcase-asyncapi-api/main/schema/de/novatec/streetlight/measured/v1/LightMeasuredEvent.g3.avsc'
         bindings:
           kafka:
             key:
@@ -70,6 +70,8 @@ channels:
               id: "550e8400-e29b-11d4-a716-446655440000"
               lumen: 780
               sentat: "2021-10-30T10:38:17Z"
+              latitude: 48.8270123
+              longitude: 9.7960271
 
   lightperiod-command-v1:
     bindings:
@@ -83,9 +85,9 @@ channels:
         title: Light Period Command v1
         contentType: avro/binary
         schemaFormat: application/vnd.apache.avro+json;version=1.9.0
-        x-schema-url: "https://raw.githubusercontent.com/ueisele/showcase-asyncapi-api/main/schema/de/novatec/streetlight/period/v1/LightPeriodCommand.g1.avsc"
+        x-schema-url: "https://raw.githubusercontent.com/ueisele/showcase-asyncapi-api/main/schema/de/novatec/streetlight/period/v1/LightPeriodCommand.g2.avsc"
         payload:
-          $ref: 'https://raw.githubusercontent.com/ueisele/showcase-asyncapi-api/main/schema/de/novatec/streetlight/period/v1/LightPeriodCommand.g1.avsc'
+          $ref: 'https://raw.githubusercontent.com/ueisele/showcase-asyncapi-api/main/schema/de/novatec/streetlight/period/v1/LightPeriodCommand.g2.avsc'
         bindings:
           kafka:
             key:
@@ -106,7 +108,8 @@ channels:
             payload:
               id: "550e8400-e29b-11d4-a716-446655440000"
               enabled: true
-              maxlumen: 780
+              maxlumens: 780
+              minlumens: 0
               fromearliest: "16:00:00Z"
               untillatest: "07:00:00Z"
 

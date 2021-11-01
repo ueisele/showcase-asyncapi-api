@@ -1,18 +1,18 @@
 asyncapi: '2.2.0'
 
-id: 'urn:de.novatec.streetlight.v1'
+id: 'urn:de:novatec:streetlight:v1'
 
 info:
   title: Streetlight API
-  version: '1.0.0'
+  version: '1.1.0'
   description: |
     The Streetlight API allows you to remotely manage the city lights.
   contact:
     name: Streetlight API Support
     url: https://github.com/ueisele/showcase-asyncapi-api
-    email: enceladus@uweeisele.eu
+    email: enceladus@future-light-x10.eu
     x-project-name: Future Light X10
-    x-team-name: Team Enceladus
+    x-team-name: Enceladus
   license:
     name: Apache 2.0
     url: 'https://www.apache.org/licenses/LICENSE-2.0'

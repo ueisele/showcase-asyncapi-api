@@ -19,15 +19,15 @@
       "doc": "Date and time when the message was sent in milliseconds from the unix epoch, 1 January 1970 00:00:00.000 UTC."
     },
     {
-      "name" : "long",
-      "type": ["double", "null"],
-      "doc": "Longitude of the streetlight.",
+      "name" : "lat",
+      "type": ["null", "double"],
+      "doc": "Latitude of the streetlight.",
       "default": null
     },
     {
-      "name" : "lat",
-      "type": ["double", "null"],
-      "doc": "Latitude of the streetlight.",
+      "name" : "long",
+      "type": ["null", "double"],
+      "doc": "Longitude of the streetlight.",
       "default": null
     }
   ]
