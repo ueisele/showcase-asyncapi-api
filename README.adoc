@@ -2,7 +2,7 @@
 
 == Register Schemas
 
-Register all schemas which are referenced in AsyncAPI definitions at Confluent Schema Registry:
+Register all Avro schemas which are referenced in AsyncAPI definitions at Confluent Schema Registry:
 
 [source,bash]
 ----
@@ -18,9 +18,26 @@ Show all existing subjects:
 curl -u "${CC_SR_API_KEY}:${CC_SR_API_KEY_SECRET}" https://psrc-xm8wx.eu-central-1.aws.confluent.cloud/subjects
 ----
 
-== Publish AsyncAPIs
+== Register AsyncAPIs
+
+Register all AsyncAPIs at Apicurio Registry:
 
 [source,bash]
 ----
-ASYNCAPI_JSON="$(yq eval -j asyncapi/de/novatec/streetlight/v1/Streetlight.g1.yaml)"
+scripts/register-asyncapi-apicurio.sh \
+    --apicurio-registry-url http://localhost:8080
+----
+
+Show all existing artifacts:
+
+[source,bash]
+----
+curl http://localhost:8080/apis/registry/v2/groups/default/artifacts
+----
+
+SHow all versions of a specific artifact:
+
+[source,bash]
+----
+curl http://localhost:8080/apis/registry/v2/groups/default/artifacts/urn:de.novatec.streetlight.v1/versions
 ----
