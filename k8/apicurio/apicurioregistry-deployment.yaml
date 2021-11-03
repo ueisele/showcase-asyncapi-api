@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: apicurioregistry
+  name: apicurioregistry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apicurioregistry
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: apicurioregistry
+    spec:
+      containers:
+      - env:
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          value: showcase-kafka.default.svc.cluster.local:9092
+        image: apicurio/apicurio-registry-kafkasql:2.1.2.Final
+        imagePullPolicy: ""
+        name: apicurio
+        ports:
+        - containerPort: 8080
+        resources: {}
+      hostname: apicurio
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}

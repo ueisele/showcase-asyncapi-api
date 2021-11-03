@@ -29,3 +29,19 @@ jq '.channels | to_entries[] | { topic: .key, valueschema: .value | to_entries[]
 ----
 jq '.channels | to_entries[] | { topic: .key, schemas: [{schema: (.value | to_entries[].value.message?.payload."$ref" | select(. != null)), type: "value"}] }' <<<$ASYNCAPI_JSON
 ----
+
+== Deploy Apicurio in K8
+
+Install Kafka and Zookeeper:
+
+[source,bash]
+----
+helm install showcase bitnami/kafka -f ./k8/apicurio/kafka-backend-values.yaml
+----
+
+Install Apicurio:
+
+[source,bash]
+----
+kubectl apply -f ./k8/apicurio/apicurioregistry-deployment.yaml
+----
