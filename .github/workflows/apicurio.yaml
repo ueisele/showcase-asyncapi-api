@@ -18,9 +18,9 @@ jobs:
 
       - name: Run script
         env:
-          SCHEMA_REGISTRY_API_KEY: ${{ secrets.APICURIO_REGISTRY_API_KEY }}
-          SCHEMA_REGISTRY_API_KEY_SECRET: ${{ secrets.APICURIO_REGISTRY_API_KEY_SECRET }}
-          SCHEMA_REGISTRY_URL: ${{ secrets.APICURIO_REGISTRY_URL }}
+          APICURIO_REGISTRY_API_KEY: ${{ secrets.APICURIO_REGISTRY_API_KEY }}
+          APICURIO_REGISTRY_API_KEY_SECRET: ${{ secrets.APICURIO_REGISTRY_API_KEY_SECRET }}
+          APICURIO_REGISTRY_URL: ${{ secrets.APICURIO_REGISTRY_URL }}
         run: |
           scripts/register-asyncapi-apicurio.sh \
               --apicurio-registry-url ${APICURIO_REGISTRY_URL} \
