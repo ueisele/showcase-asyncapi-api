@@ -1,0 +1,27 @@
+name: asyncapi-directory
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  register_asyncapi_in_asyncapi_directory:
+    runs-on: ubuntu-latest
+    name: Register AsyncAPI definitions in AsyncAPI Directory
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Install yq
+        uses: mikefarah/yq@v4.14.1
+
+      - name: Run script
+        env:
+          ASYNCAPI_DIRECTORY_API_KEY: ${{ secrets.ASYNCAPI_DIRECTORY_API_KEY }}
+          ASYNCAPI_DIRECTORY_API_KEY_SECRET: ${{ secrets.ASYNCAPI_DIRECTORY_API_KEY_SECRET }}
+          ASYNCAPI_DIRECTORY_URL: ${{ secrets.ASYNCAPI_DIRECTORY_URL }}
+        run: |
+          scripts/register-asyncapi-directory.sh \
+              --asyncapi-directory-url ${ASYNCAPI_DIRECTORY_URL} \
+              --basic-auth "${ASYNCAPI_DIRECTORY_API_KEY}:${ASYNCAPI_DIRECTORY_API_KEY_SECRET}"
