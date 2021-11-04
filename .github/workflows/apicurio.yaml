@@ -23,5 +23,5 @@ jobs:
           SCHEMA_REGISTRY_URL: ${{ secrets.APICURIO_REGISTRY_URL }}
         run: |
           scripts/register-asyncapi-apicurio.sh \
-              --schema-registry-url ${APICURIO_REGISTRY_URL} \
+              --apicurio-registry-url ${APICURIO_REGISTRY_URL} \
               --basic-auth "${APICURIO_REGISTRY_API_KEY}:${APICURIO_REGISTRY_API_KEY_SECRET}"
