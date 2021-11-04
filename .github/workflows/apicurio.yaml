@@ -1,0 +1,27 @@
+name: apicurio
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  register_schemas_in_Confluent_Schema_Registry:
+    runs-on: ubuntu-latest
+    name: Register AsyncAPI files in Apicurio
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Install yq
+        uses: mikefarah/yq@v4.14.1
+
+      - name: Run script
+        env:
+          SCHEMA_REGISTRY_API_KEY: ${{ secrets.APICURIO_REGISTRY_API_KEY }}
+          SCHEMA_REGISTRY_API_KEY_SECRET: ${{ secrets.APICURIO_REGISTRY_API_KEY_SECRET }}
+          SCHEMA_REGISTRY_URL: ${{ secrets.APICURIO_REGISTRY_URL }}
+        run: |
+          scripts/register-asyncapi-apicurio.sh \
+              --schema-registry-url ${APICURIO_REGISTRY_URL} \
+              --basic-auth "${APICURIO_REGISTRY_API_KEY}:${APICURIO_REGISTRY_API_KEY_SECRET}"
