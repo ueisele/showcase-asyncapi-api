@@ -1,14 +1,9 @@
-:toc:
-:toc-title:
-:toclevels: 2
-:sectnums:
-
 = Showcase AsyncAPI APIs and Schemas
 
 This repository demonstrates how a CI/CD approach for Schemas and API definitions for asynchronous APIs could lool like. 
 
 All Avro Schemas are maintained in link:schema/[] folder and all AsyncAPI definitions are maintained in link:asyncapi/[] folder.
-For each Schema and AsyncAPI there is a _version_ folder (e.g. link:schema/de/novatec/streetlight/measured/v1/[]). Each _version_ may evolve in a compatible way. In order to track this for each compatible change a new _generation_ file is created.
+For each Schema and AsyncAPI there is a _version_ folder (e.g. link:schema/de/novatec/streetlight/measured/v1/[]). Each _version_ may evolve in a compatible way. In order to track this for each compatible change a new _generation_ file is created (e.g. link:schema/de/novatec/streetlight/measured/v1/LightMeasuredEvent.g3.avsc[]).
 
 Ths repository contains GitHub Actions pipelines which register the Schemas and AsyncAPIs at
 
