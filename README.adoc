@@ -1,6 +1,26 @@
+:toc:
+:toc-title:
+:toclevels: 2
+:sectnums:
+
 = Showcase AsyncAPI APIs and Schemas
 
-== Register Schemas at Confluent Schema Registry
+This repository demonstrates how a CI/CD approach for Schemas and API definitions for asynchronous APIs could lool like. 
+
+All Avro Schemas are maintained in link:schema/[] folder and all AsyncAPI definitions are maintained in link:asyncapi/[] folder.
+For each Schema and AsyncAPI there is a _version_ folder (e.g. link:schema/de/novatec/streetlight/measured/v1/[]). Each _version_ may evolve in a compatible way. In order to track this for each compatible change a new _generation_ file is created.
+
+Ths repository contains GitHub Actions pipelines which register the Schemas and AsyncAPIs at
+
+* link:https://psrc-xm8wx.eu-central-1.aws.confluent.cloud[Confluent Schema Registry]
+* link:https://apicurioregistry.asyncapi.aws.uweeisele.dev[Apicurio Registry]
+* link:https://asyncapidirectory.asyncapi.aws.uweeisele.dev[AsyncAPI Directory]
+
+every time a change was published to the Git repository.
+
+== Deployment
+
+=== Register Schemas at Confluent Schema Registry
 
 Register all Avro schemas which are referenced in AsyncAPI definitions at Confluent Schema Registry:
 
@@ -8,45 +28,51 @@ Register all Avro schemas which are referenced in AsyncAPI definitions at Conflu
 ----
 scripts/register-schemas-confluent.sh \
     --schema-registry-url https://psrc-xm8wx.eu-central-1.aws.confluent.cloud \
-    --basic-auth "${CC_SR_API_KEY}:${CC_SR_API_KEY_SECRET}"
+    --basic-auth "${SCHEMA_REGISTRY_API_KEY}:${SCHEMA_REGISTRY_API_KEY_SECRET}"
 ----
 
 Show all existing subjects:
 
 [source,bash]
 ----
-curl -u "${CC_SR_API_KEY}:${CC_SR_API_KEY_SECRET}" https://psrc-xm8wx.eu-central-1.aws.confluent.cloud/subjects
+curl -u "${SCHEMA_REGISTRY_API_KEY}:${SCHEMA_REGISTRY_API_KEY}" \
+    https://psrc-xm8wx.eu-central-1.aws.confluent.cloud/subjects
 ----
 
-== Register AsyncAPIs at Apicurio Registry
+=== Register AsyncAPIs at Apicurio Registry
 
 Register all AsyncAPIs at Apicurio Registry:
 
 [source,bash]
 ----
 scripts/register-asyncapi-apicurio.sh \
-    --apicurio-registry-url http://localhost:8080
+    --apicurio-registry-url https://apicurioregistry.asyncapi.aws.uweeisele.dev \
+    --basic-auth "${APICURIO_REGISTRY_API_KEY}:${APICURIO_REGISTRY_API_KEY_SECRET}"
 ----
 
 Show all existing artifacts:
 
 [source,bash]
 ----
-curl http://localhost:8080/apis/registry/v2/groups/default/artifacts
+curl -u "${APICURIO_REGISTRY_API_KEY}:${APICURIO_REGISTRY_API_KEY_SECRET}" \
+    https://apicurioregistry.asyncapi.aws.uweeisele.dev/apis/registry/v2/groups/default/artifacts
 ----
 
 Show all versions of a specific artifact:
 
 [source,bash]
 ----
-curl http://localhost:8080/apis/registry/v2/groups/default/artifacts/urn:de.novatec.streetlight.v1/versions
+curl -u "${APICURIO_REGISTRY_API_KEY}:${APICURIO_REGISTRY_API_KEY_SECRET}" \
+    https://apicurioregistry.asyncapi.aws.uweeisele.dev/apis/registry/v2/groups/default/artifacts/urn:de:novatec:streetlight:v1/versions
 ----
 
-== Register AsyncAPIs at AsyncAPI Directory
+=== Register AsyncAPIs at AsyncAPI Directory
 
 Register all AsyncAPIs at AsyncAPI Discovery:
 
 [source,bash]
 ----
-scripts/register-asyncapi-directory.sh --asyncapi-directory-url http://localhost:8080
+scripts/register-asyncapi-directory.sh \
+    --asyncapi-directory-url https://asyncapidirectory.asyncapi.aws.uweeisele.dev \
+    --basic-auth "${ASYNCAPI_DIRECTORY_API_KEY}:${ASYNCAPI_DIRECTORY_API_KEY_SECRET}"
 ----

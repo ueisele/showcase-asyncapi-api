@@ -1,4 +1,4 @@
-name: apicurio
+name: apicurio-registry
 on:
   push:
     branches:
@@ -6,9 +6,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  register_schemas_in_Confluent_Schema_Registry:
+  register_asyncapi_in_apicurio_registry:
     runs-on: ubuntu-latest
-    name: Register AsyncAPI files in Apicurio
+    name: Register AsyncAPI definitions in Apicurio Registry
     steps:
       - name: Checkout
         uses: actions/checkout@v1

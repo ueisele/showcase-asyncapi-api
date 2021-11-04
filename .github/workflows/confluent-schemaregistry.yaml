@@ -1,4 +1,4 @@
-name: schema-registration
+name: confluent-schemaregistry
 on:
   push:
     branches:
@@ -6,9 +6,9 @@ on:
   workflow_dispatch:
 
 jobs:
-    register_schemas_in_Confluent_Schema_Registry:
+    register_schemas_in_confluent_schemaregistry:
       runs-on: ubuntu-latest
-      name: Register schemas in Confluent Schema Registry
+      name: Register Schemas in Confluent Schema Registry
       steps:
         - name: Checkout
           uses: actions/checkout@v1
