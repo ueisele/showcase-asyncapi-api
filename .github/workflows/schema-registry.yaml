@@ -1,0 +1,27 @@
+name: schema-registration
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+  jobs:
+    register_schemas_in_Confluent_Schema_Registry:
+      runs-on: ubuntu-latest
+      name: Register schemas in Confluent Schema Registry
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v1
+
+        - name: Install yq
+          uses: chrisdickinson/setup-yq@latest
+
+        - name: Run script
+          env:
+            SCHEMA_REGISTRY_API_KEY: ${{ secrets.SCHEMA_REGISTRY_API_KEY }}
+            SCHEMA_REGISTRY_API_KEY_SECRET: ${{ secrets.SCHEMA_REGISTRY_API_KEY_SECRET }}
+            SCHEMA_REGISTRY_URL: ${{ secrets.SCHEMA_REGISTRY_URL }}
+          run: |
+            scripts/register-schemas-confluent.sh \
+                --schema-registry-url ${SCHEMA_REGISTRY_URL} \
+                --basic-auth "${SCHEMA_REGISTRY_API_KEY}:${SCHEMA_REGISTRY_API_KEY_SECRET}"
