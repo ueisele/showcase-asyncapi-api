@@ -1,5 +1,6 @@
 = Showcase AsyncAPI APIs and Schemas
 
+
 This repository demonstrates how a CI/CD approach for Schemas and API definitions for asynchronous APIs could lool like. 
 
 All Avro Schemas are maintained in link:schema/[] folder and all AsyncAPI definitions are maintained in link:asyncapi/[] folder.
