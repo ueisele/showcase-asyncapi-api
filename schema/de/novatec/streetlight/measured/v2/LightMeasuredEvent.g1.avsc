@@ -1,0 +1,22 @@
+{
+  "namespace": "de.novatec.streetlight.measured.v2",
+  "name": "LightMeasuredEvent",
+  "type": "record",
+  "fields": [
+    {
+      "name" : "id",
+      "type": {"type": "string", "logicalType": "uuid"},
+      "doc": "Id of the streetlight as UUID."
+    },
+    {
+      "name" : "lumens",
+      "type": "int",
+      "doc": "Light intensity measured in lumens."
+    },
+    {
+      "name" : "location",
+      "type": "string",
+      "doc": "what3words format for location."
+    }
+  ]
+}

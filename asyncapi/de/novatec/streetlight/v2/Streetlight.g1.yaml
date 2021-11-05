@@ -1,0 +1,118 @@
+asyncapi: '2.2.0'
+
+id: 'urn:de:novatec:streetlight:v2'
+
+info:
+  title: Streetlight API
+  version: '2.1.0'
+  description: |
+    The Streetlight API allows you to remotely manage the city lights.
+  contact:
+    name: Streetlight API Support
+    url: https://github.com/ueisele/showcase-asyncapi-api
+    email: enceladus@future-light-x10.eu
+    x-project-name: Future Light X10
+    x-team-name: Enceladus
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0'
+
+externalDocs:
+  description: 'Internal technical documentation for further details.'
+  url: 'https://enceladus.doc.com'
+
+tags:
+  - name: Lighting
+    description: Lighting-related messages.
+
+servers:
+  showcase-asyncapi:
+    protocol: kafka-secure
+    description: Showcase AsyncAPI Kafka Cluster
+    url: pkc-lq8v7.eu-central-1.aws.confluent.cloud:9092
+    security:
+      - creds: []
+
+channels:
+  lightmeasured-event-v2:
+    bindings:
+      kafka:
+        x-partitions: 4
+    subscribe:
+      summary: Inform about environmental lighting conditions for a particular streetlight.
+      operationId: onLightMeasured
+      message:
+        name: lightMeasured-event-v2
+        title: Light Measured Event v2
+        contentType: avro/binary
+        schemaFormat: application/vnd.apache.avro+json;version=1.9.0
+        x-schema-url: "https://raw.githubusercontent.com/ueisele/showcase-asyncapi-api/main/schema/de/novatec/streetlight/measured/v2/LightMeasuredEvent.g1.avsc"
+        payload:
+          $ref: 'https://raw.githubusercontent.com/ueisele/showcase-asyncapi-api/main/schema/de/novatec/streetlight/measured/v2/LightMeasuredEvent.g1.avsc'
+        bindings:
+          kafka:
+            key:
+              type: string
+              description: Id of the streetlight.
+            bindingVersion: '0.2.0'
+        traits:
+          - $ref: 'https://raw.githubusercontent.com/ueisele/showcase-asyncapi-api/main/supplements/kafka/cloudevents-v1.0.1-asyncapi-trait.yml'
+        examples:
+          - summary: Example for Streetlight LightMeasured Event
+            headers:
+              ce_specversion: "1.0"
+              ce_id: "{{uuid()}}"
+              ce_source: "/streetlight/550e8400-e29b-11d4-a716-446655440000"
+              ce_type: "de.novatec.streetlight.measured.v1.LightMeasuredEvent"
+              ce_time: "{{now(yyyy-MM-dd'T'HH:mm:SS'Z')}}"
+              content-type: application/avro
+            payload:
+              id: "550e8400-e29b-11d4-a716-446655440000"
+              lumen: 780
+              location: "///limo.reserve.skews"
+
+  lightperiod-command-v1:
+    bindings:
+      kafka:
+        x-partitions: 4
+    publish:
+      summary: Set a light period for a streetlight.
+      operationId: publishLightPeriod
+      message:
+        name: lightperiod-command-v1
+        title: Light Period Command v1
+        contentType: avro/binary
+        schemaFormat: application/vnd.apache.avro+json;version=1.9.0
+        x-schema-url: "https://raw.githubusercontent.com/ueisele/showcase-asyncapi-api/main/schema/de/novatec/streetlight/period/v1/LightPeriodCommand.g2.avsc"
+        payload:
+          $ref: 'https://raw.githubusercontent.com/ueisele/showcase-asyncapi-api/main/schema/de/novatec/streetlight/period/v1/LightPeriodCommand.g2.avsc'
+        bindings:
+          kafka:
+            key:
+              type: string
+              description: Id of the streetlight.
+            bindingVersion: '0.2.0'
+        traits:
+          - $ref: 'https://raw.githubusercontent.com/ueisele/showcase-asyncapi-api/main/supplements/kafka/cloudevents-v1.0.1-asyncapi-trait.yml'
+        examples:
+          - summary: Example for Streetlight Light Period Command
+            headers:
+              ce_specversion: "1.0"
+              ce_id: "{{uuid()}}"
+              ce_source: "/streetlight-controller/30ad5b6e-3a99-11ec-8d3d-0242ac130003"
+              ce_type: "de.novatec.streetlight.period.v1.LightPeriodCommand"
+              ce_time: "{{now(yyyy-MM-dd'T'HH:mm:SS'Z')}}"
+              content-type: application/avro
+            payload:
+              id: "550e8400-e29b-11d4-a716-446655440000"
+              enabled: true
+              maxlumens: 780
+              minlumens: 0
+              fromearliest: "16:00:00Z"
+              untillatest: "07:00:00Z"
+
+components:
+  securitySchemes:
+    creds:
+      type: userPassword
+      description: Confluent Cloud API Key and Secret
