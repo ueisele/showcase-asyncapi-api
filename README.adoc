@@ -1,6 +1,5 @@
 = Showcase AsyncAPI APIs and Schemas
 
-
 This repository demonstrates how a CI/CD approach for Schemas and API definitions for asynchronous APIs could lool like. 
 
 All Avro Schemas are maintained in link:schema/[] folder and all AsyncAPI definitions are maintained in link:asyncapi/[] folder.
@@ -13,6 +12,8 @@ Ths repository contains GitHub Actions pipelines which register the Schemas and 
 * link:https://asyncapidirectory.asyncapi.aws.uweeisele.dev[AsyncAPI Directory]
 
 every time a change was published to the Git repository.
+
+To browse the AsyncAPI definitions navigate to link:https://ueisele.github.io/showcase-asyncapi-api/[].
 
 == Deployment
 
