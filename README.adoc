@@ -1,0 +1,3 @@
+= AsyncAPI Directory GitHub Pages
+
+Navigate to: https://ueisele.github.io/showcase-asyncapi-api/
