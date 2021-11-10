@@ -1,0 +1,32 @@
+name: Build and Publish to GitHub Pages
+on:
+  push:
+    branches:
+      - directory
+  workflow_dispatch:
+
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+    name: Build and Publish to GitHub Pages
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Application
+        run: npm run build
+
+      - name: 'Deploy to gh-pages branch'
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
+          branch: gh-pages # This is the branch you wish to deploy to.
+          folder: dist/asyncapi-directory # The folder in your repository that you want to deploy.

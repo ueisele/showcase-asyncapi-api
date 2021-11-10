@@ -1,0 +1,39 @@
+.navigation {
+  margin: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.react-wrapper {
+  width: 1200px;
+  margin:0 auto;
+  padding-top: 10px;
+}
+
+.mat-tab-label {
+  justify-content: space-around;
+  display: flex;
+}
+
+a {
+  outline: none;
+  text-decoration: none;
+  padding: 2px 1px 0;
+}
+
+a:link {
+  color: #283593;
+
+}
+
+a:visited {
+  color: #283593;
+}
+
+a:focus {
+  border-bottom: 1px solid;
+}
+
+a:hover {
+  border-bottom: 1px solid;
+}

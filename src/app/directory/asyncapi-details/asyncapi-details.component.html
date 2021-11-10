@@ -1,0 +1,45 @@
+<mat-toolbar color="primary" fxLayout="row" class="mat-elevation-z4">
+  <span>AsyncAPI Details</span>
+  <span class="fill-space"></span>
+  <button mat-button [matMenuTriggerFor]="menu">
+      <span class="mat-button-wrapper"> Version {{asyncApiRefs.currentGeneration.version}}
+        <mat-icon role="img" class="mat-icon notranslate material-icons mat-icon-no-color" aria-hidden="true"
+                  data-mat-icon-type="font">
+          arrow_drop_down
+        </mat-icon>
+      </span>
+    <span matripple="" class="mat-ripple mat-button-ripple"></span><span class="mat-button-focus-overlay"></span>
+  </button>
+
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item *ngFor="let v of (asyncApiRefs.generations || [])" (click)="onChangeVersion(v)">{{v.version}}</button>
+  </mat-menu>
+</mat-toolbar>
+
+<div class="navigation">
+  <a routerLink="/directory" class="mat">Directory</a>
+  <mat-icon class="navigation-symbol">navigate_next</mat-icon>
+  <span class="navigation-static">Details</span>
+</div>
+
+<mat-divider></mat-divider>
+
+<div>
+  <mat-tab-group mat-stretch-tabs mat-align-tabs="center">
+
+    <mat-tab label="Definition">
+      <div class="react-wrapper">
+        <app-asyncapi-react *ngIf="schema" [schema]="schema"></app-asyncapi-react>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Meta Information">
+      <app-meta-info [schema]="schema"></app-meta-info>
+    </mat-tab>
+
+
+    <mat-tab label="Raw Content">
+      <app-raw-content [schema]="schema"></app-raw-content>
+    </mat-tab>
+  </mat-tab-group>
+</div>

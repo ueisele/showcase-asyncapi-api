@@ -1,0 +1,46 @@
+= AsyncAPI Directory
+
+This repository demonstrates how a CI/CD approach for Schemas and API definitions for asynchronous APIs could lool like. 
+
+The Avro Schemas and AsyncAPI Definitions are maintained in the _main_ branch of this repositors.
+
+This branch contains the AsyncAPI Directory, which is an Angular applications which visualizes the AsyncAPI Definitions in the _main_ branch,
+as well as a GitHub Actions pipeline which publishes the AsyncAPI Directory to GitHub Pages.
+
+The AsyncAPI Directory has been forked from https://github.com/NovatecConsulting/tc-asyncapi-directory
+
+== Build
+
+Run the following commands to build the project: 
+
+[source,bash]
+----
+npm install
+npm run build
+----
+
+The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+
+== Development server
+
+Run `npm run start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+== Running unit tests
+
+Run `npm run test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+NOTE: Tests are not running at the moment!
+
+== Running end-to-end tests
+
+Run `npm run e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+NOTE: Tests are not running at the moment!
+
+== Code scaffolding
+
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+
+== Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
