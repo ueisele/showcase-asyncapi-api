@@ -6,12 +6,12 @@ export class Attribute {
 export type AsyncApiRefs = {
   currentGeneration: AsyncApiRef
   generations: AsyncApiRef[]
-}
+};
 
 export type AsyncApiRef = {
   id: string
   info: any
   version: string
   url: string
-}
+};
 

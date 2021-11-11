@@ -9,17 +9,17 @@ export class RawContentComponent implements OnInit {
   @Input()
   schema: any;
 
-  isReadMore = true
-  icon = "expand_more";
+  isReadMore = true;
+  icon = 'expand_more';
 
   showText() {
-    if(this.icon == "expand_more") {
-      this.icon = "expand_less";
-    }else {
-      this.icon = "expand_more";
+    if (this.icon === 'expand_more') {
+      this.icon = 'expand_less';
+    } else {
+      this.icon = 'expand_more';
     }
 
-    this.isReadMore = !this.isReadMore
+    this.isReadMore = !this.isReadMore;
   }
 
   constructor() { }

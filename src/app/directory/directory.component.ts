@@ -1,11 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
 import {UpdateDirectoryService} from '../services/update-directory.service';
-import {Observable} from "rxjs";
-import {FormControl} from "@angular/forms";
-import {map, startWith} from "rxjs/operators";
-import {AsyncApiRef, AsyncApiRefs, Attribute} from "../models/attribute";
-import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {Observable} from 'rxjs';
+import {FormControl} from '@angular/forms';
+import {map, startWith} from 'rxjs/operators';
+import {AsyncApiRefs, Attribute} from '../models/attribute';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-directory',
@@ -20,10 +20,10 @@ export class DirectoryComponent implements OnInit {
   displayedApis: AsyncApiRefs[];
   optionsArtifactId: string[] = [];
   optionsTeam: string[] = [];
-  searchValue: string = "";
-  pageSize: number = 4;
+  searchValue = '';
+  pageSize = 4;
   pageEvent: PageEvent;
-  pageLength: number = 0;
+  pageLength = 0;
 
   filteredOptions: Observable<string[]>;
   myControl = new FormControl();
@@ -44,12 +44,12 @@ export class DirectoryComponent implements OnInit {
       this.pageLength = returnedApis.length;
       this.displayedApis = returnedApis;
       this.optionsArtifactId = returnedApis.map(a => a.currentGeneration.id);
-      this.optionsTeam = returnedApis.reduce(function(result, value){
+      this.optionsTeam = returnedApis.reduce((result, value) => {
         if ('contact' in value.currentGeneration.info && 'x-team-name' in value.currentGeneration.info.contact) {
           result.push(value.currentGeneration.info.contact['x-team-name'].toString());
         }
         return result;
-      }, [])
+      }, []);
     });
 
     this.filteredOptions = this.myControl.valueChanges
@@ -60,18 +60,18 @@ export class DirectoryComponent implements OnInit {
   }
 
   onGetDetails(asyncApiRefs: AsyncApiRefs) {
-    this.router.navigateByUrl("directory/details", {state: asyncApiRefs})
+    this.router.navigateByUrl('directory/details', {state: asyncApiRefs});
   }
 
   onSearchEnter(searchValue: string) {
     searchValue = searchValue.toLowerCase();
 
-    if(this.selectedAttribute == this.attributes[0].viewValue) {
+    if (this.selectedAttribute === this.attributes[0].viewValue) {
       this.displayedApis = this.apis.filter(str => str.currentGeneration.id.toString().toLowerCase().includes(searchValue));
-    }else if(this.selectedAttribute == this.attributes[1].viewValue) {
-      this.displayedApis = this.apis.filter(function (value) {
+    } else if (this.selectedAttribute === this.attributes[1].viewValue) {
+      this.displayedApis = this.apis.filter((value) => {
         if ('contact' in value.currentGeneration.info && 'x-team-name' in value.currentGeneration.info.contact) {
-          if(value.currentGeneration.info.contact['x-team-name'].toString().toLowerCase().includes(searchValue)) {
+          if (value.currentGeneration.info.contact['x-team-name'].toString().toLowerCase().includes(searchValue)) {
             return value;
           }
         }
@@ -82,15 +82,15 @@ export class DirectoryComponent implements OnInit {
   onChangeFilter(attribute: Attribute) {
     this.selectedAttribute = attribute.viewValue;
     this.displayedApis = this.apis;
-    this.myControl.setValue("");
+    this.myControl.setValue('');
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    if(this.selectedAttribute == this.attributes[0].viewValue) {
+    if (this.selectedAttribute === this.attributes[0].viewValue) {
       return this.optionsArtifactId.filter(option => option.toLowerCase().includes(filterValue));
-    }else if(this.selectedAttribute == this.attributes[1].viewValue) {
+    }else if (this.selectedAttribute === this.attributes[1].viewValue) {
       return this.optionsTeam.filter(option => option.toLowerCase().includes(filterValue));
     }
   }

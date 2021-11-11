@@ -1,13 +1,12 @@
-import {Component, ElementRef, OnDestroy, Input, OnInit, OnChanges, SimpleChanges,} from '@angular/core';
-import AsyncApiStandalone from "@asyncapi/react-component/browser/standalone";
+import {Component, ElementRef, OnDestroy, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import AsyncApiStandalone from '@asyncapi/react-component/browser/standalone';
 
 @Component({
   selector: 'app-asyncapi-react',
   template: `
     <div id="asyncapi-doc"></div>
   `,
-  styleUrls: ['./asyncapi-react.component.css'],
-  inputs: ['schema']
+  styleUrls: ['./asyncapi-react.component.css']
 })
 export class AsyncapiReactComponent implements OnDestroy, OnInit, OnChanges {
   constructor(private element: ElementRef) {}
