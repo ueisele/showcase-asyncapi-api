@@ -14,18 +14,18 @@ import {MatPaginator, PageEvent} from '@angular/material/paginator';
 })
 
 export class DirectoryComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  apis: AsyncApiRefs[];
-  displayedApis: AsyncApiRefs[];
+  apis: AsyncApiRefs[] = [];
+  displayedApis: AsyncApiRefs[] = [];
   optionsArtifactId: string[] = [];
   optionsTeam: string[] = [];
   searchValue = '';
   pageSize = 4;
-  pageEvent: PageEvent;
+  pageEvent!: PageEvent;
   pageLength = 0;
 
-  filteredOptions: Observable<string[]>;
+  filteredOptions!: Observable<string[]>;
   myControl = new FormControl();
   attributes: Attribute[] = [
     {value: 'artifactId-0', viewValue: 'ArtifactID'},
@@ -44,12 +44,12 @@ export class DirectoryComponent implements OnInit {
       this.pageLength = returnedApis.length;
       this.displayedApis = returnedApis;
       this.optionsArtifactId = returnedApis.map(a => a.currentGeneration.id);
-      this.optionsTeam = returnedApis.reduce((result, value) => {
+      this.optionsTeam = [...new Set(returnedApis.reduce((result: string[], value) => {
         if ('contact' in value.currentGeneration.info && 'x-team-name' in value.currentGeneration.info.contact) {
           result.push(value.currentGeneration.info.contact['x-team-name'].toString());
         }
         return result;
-      }, []);
+      }, []))];
     });
 
     this.filteredOptions = this.myControl.valueChanges
@@ -72,9 +72,10 @@ export class DirectoryComponent implements OnInit {
       this.displayedApis = this.apis.filter((value) => {
         if ('contact' in value.currentGeneration.info && 'x-team-name' in value.currentGeneration.info.contact) {
           if (value.currentGeneration.info.contact['x-team-name'].toString().toLowerCase().includes(searchValue)) {
-            return value;
+            return true;
           }
         }
+        return false;
       });
     }
   }
@@ -90,8 +91,9 @@ export class DirectoryComponent implements OnInit {
 
     if (this.selectedAttribute === this.attributes[0].viewValue) {
       return this.optionsArtifactId.filter(option => option.toLowerCase().includes(filterValue));
-    }else if (this.selectedAttribute === this.attributes[1].viewValue) {
+    } else if (this.selectedAttribute === this.attributes[1].viewValue) {
       return this.optionsTeam.filter(option => option.toLowerCase().includes(filterValue));
     }
+    return [];
   }
 }

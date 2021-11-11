@@ -1,4 +1,5 @@
 import {Component, ElementRef, OnDestroy, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+// @ts-ignore
 import AsyncApiStandalone from '@asyncapi/react-component/browser/standalone';
 
 @Component({
@@ -10,14 +11,12 @@ import AsyncApiStandalone from '@asyncapi/react-component/browser/standalone';
 })
 export class AsyncapiReactComponent implements OnDestroy, OnInit, OnChanges {
   constructor(private element: ElementRef) {}
-  stringSchema: string;
 
   @Input()
   schema: any;
 
   ngOnInit() {
-    this.stringSchema = JSON.stringify(this.schema);
-    const schema = this.stringSchema; // AsyncAPI specification, fetched or pasted.
+    const schema = JSON.stringify(this.schema); // AsyncAPI specification, fetched or pasted.
     const config = {}; // Configuration for component. This same as for normal React component
     const container = this.element.nativeElement.querySelector('#asyncapi-doc');
     AsyncApiStandalone.render({ schema, config }, container);
@@ -28,8 +27,7 @@ export class AsyncapiReactComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.stringSchema = JSON.stringify(this.schema);
-    const schema = this.stringSchema; // AsyncAPI specification, fetched or pasted.
+    const schema = JSON.stringify(this.schema); // AsyncAPI specification, fetched or pasted.
     const config = {}; // Configuration for component. This same as for normal React component
     const container = this.element.nativeElement.querySelector('#asyncapi-doc');
     AsyncApiStandalone.render({ schema, config }, container);

@@ -1,19 +1,19 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { MaterialModule } from './material/material.module';
-import { MatCardModule} from '@angular/material/card';
-import { DirectoryComponent } from './directory/directory.component';
+import { AppComponent } from './app.component';
 import { AsyncapiDetailsComponent } from './directory/asyncapi-details/asyncapi-details.component';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import { MetaInfoComponent } from './directory/asyncapi-details/meta-info/meta-info.component';
 import { AsyncapiReactComponent } from './directory/asyncapi-details/asyncapi-react/asyncapi-react.component';
+import { MetaInfoComponent } from './directory/asyncapi-details/meta-info/meta-info.component';
 import { RawContentComponent } from './directory/asyncapi-details/raw-content/raw-content.component';
+import { DirectoryComponent } from './directory/directory.component';
+import { MaterialModule } from './material/material.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +27,7 @@ import { RawContentComponent } from './directory/asyncapi-details/raw-content/ra
   imports: [
     BrowserModule,
     FormsModule,
+    AppRoutingModule,
     MatCardModule,
     AppRoutingModule,
     HttpClientModule,
@@ -40,4 +41,3 @@ import { RawContentComponent } from './directory/asyncapi-details/raw-content/ra
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
-

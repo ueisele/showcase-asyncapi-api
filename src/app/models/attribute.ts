@@ -1,6 +1,6 @@
 export class Attribute {
-  value: string;
-  viewValue: string;
+  value: string = '';
+  viewValue: string = '';
 }
 
 export type AsyncApiRefs = {

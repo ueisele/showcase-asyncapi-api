@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {forkJoin, Observable} from 'rxjs';
-import {parse} from 'yamljs';
+import * as YAML from 'yaml';
 import {map} from 'rxjs/operators';
 import {AsyncApiRefs} from '../models/attribute';
 
@@ -17,10 +17,10 @@ export class UpdateDirectoryService {
   getAsyncApiSummary(): Observable<AsyncApiRefs[]> {
     return new Observable<AsyncApiRefs[]>(observer => {
       this.http.get(`${this.gitHubUrl}?recursive=1`).pipe(
-        map((result: any) => result.tree.filter(ref => ref.type === 'blob' && this.pathValidator.test(ref.path))),
+        map((result: any) => result.tree.filter((ref: any) => ref.type === 'blob' && this.pathValidator.test(ref.path))),
       ).subscribe((res: any[]) => {
         const requests = res.map(ref => this.http.get(ref.url).pipe(
-          map((result: any) => parse(atob(result.content))),
+          map((result: any) => YAML.parse(atob(result.content))),
           map((json: any) => {return{
             id: json.id.toString(),
             info: json.info,
@@ -36,13 +36,13 @@ export class UpdateDirectoryService {
                 currentGeneration: api,
                 generations: [api]
               });
-            } else if (apiRefMap.get(api.id).currentGeneration.version < api.version) {
+            } else if (apiRefMap.get(api.id)!.currentGeneration.version < api.version) {
               // version of api to add is larger
-              apiRefMap.get(api.id).currentGeneration = api;
-              apiRefMap.get(api.id).generations.push(api);
+              apiRefMap.get(api.id)!.currentGeneration = api;
+              apiRefMap.get(api.id)!.generations.push(api);
             } else {
               // version of api to add is smaller
-              apiRefMap.get(api.id).generations.push(api);
+              apiRefMap.get(api.id)!.generations.push(api);
             }
           });
           apiRefMap.forEach(apiRef => apiRef.generations

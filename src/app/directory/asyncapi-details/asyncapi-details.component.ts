@@ -12,7 +12,10 @@ import {Router} from '@angular/router';
 })
 
 export class AsyncapiDetailsComponent implements OnInit {
-  asyncApiRefs: AsyncApiRefs;
+  asyncApiRefs: AsyncApiRefs = {
+    currentGeneration: {id: "", info: "", version: "", url: ""},
+    generations: []
+  };
   schema: any;
 
   constructor(private getDetailsService: GetDetailsService,
