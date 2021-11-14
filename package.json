@@ -12,10 +12,10 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~13.0.0",
+    "@angular/cdk": "~13.0.0",
     "@angular/common": "~13.0.0",
     "@angular/compiler": "~13.0.0",
     "@angular/core": "~13.0.0",
-    "@angular/cdk": "~13.0.0",
     "@angular/forms": "~13.0.0",
     "@angular/material": "~13.0.0",
     "@angular/platform-browser": "~13.0.0",
@@ -23,6 +23,9 @@
     "@angular/router": "~13.0.0",
     "@asyncapi/react-component": "~1.0.0-next.21",
     "@asyncapi/web-component": "~1.0.0-next.21",
+    "@asyncapi/parser": "~1.10.2",
+    "@asyncapi/avro-schema-parser": "0.6.0",
+    "angular-oauth2-oidc": "~13.0.1",
     "rxjs": "~7.4.0",
     "yaml": "~2.0.0-8",
     "zone.js": "~0.11.4"

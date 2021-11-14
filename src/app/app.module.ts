@@ -14,6 +14,7 @@ import { MetaInfoComponent } from './directory/asyncapi-details/meta-info/meta-i
 import { RawContentComponent } from './directory/asyncapi-details/raw-content/raw-content.component';
 import { DirectoryComponent } from './directory/directory.component';
 import { MaterialModule } from './material/material.module';
+import { OAuthModule } from "angular-oauth2-oidc";
 
 @NgModule({
   declarations: [
@@ -34,7 +35,13 @@ import { MaterialModule } from './material/material.module';
     MaterialModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    MatToolbarModule
+    MatToolbarModule,
+    OAuthModule.forRoot({
+      resourceServer: {
+        sendAccessToken: true,
+        allowedUrls: ['https://api.github.com']
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent],

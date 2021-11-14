@@ -6,6 +6,7 @@ import {FormControl} from '@angular/forms';
 import {map, startWith} from 'rxjs/operators';
 import {AsyncApiRefs, Attribute} from '../models/attribute';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {OAuthService} from "angular-oauth2-oidc";
 
 @Component({
   selector: 'app-directory',
@@ -34,7 +35,8 @@ export class DirectoryComponent implements OnInit {
   selectedAttribute: string = this.attributes[0].viewValue;
 
   constructor(private router: Router,
-              private updateDirectoryService: UpdateDirectoryService) {
+              private updateDirectoryService: UpdateDirectoryService,
+              private oauthService: OAuthService) {
 
   }
 
@@ -95,5 +97,9 @@ export class DirectoryComponent implements OnInit {
       return this.optionsTeam.filter(option => option.toLowerCase().includes(filterValue));
     }
     return [];
+  }
+
+  login() {
+    this.oauthService.initLoginFlow()
   }
 }

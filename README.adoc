@@ -1,17 +1,21 @@
 = AsyncAPI Directory
 
-This repository demonstrates how a CI/CD approach for Schemas and API definitions for asynchronous APIs could lool like. 
+This repository demonstrates how a CI/CD approach for Schemas and API definitions for asynchronous APIs could lool like.
 
 The Avro Schemas and AsyncAPI Definitions are maintained in the _main_ branch of this repositors.
 
 This branch contains the AsyncAPI Directory, which is an Angular applications which visualizes the AsyncAPI Definitions in the _main_ branch,
 as well as a GitHub Actions pipeline which publishes the AsyncAPI Directory to GitHub Pages.
 
+To browse the AsyncAPI definitions navigate to https://ueisele.github.io/showcase-asyncapi-api/.
+
 The AsyncAPI Directory has been forked from https://github.com/NovatecConsulting/tc-asyncapi-directory
 
-== Build
+== Development
 
-Run the following commands to build the project: 
+=== Build
+
+Run the following commands to build the project:
 
 [source,bash]
 ----
@@ -21,26 +25,85 @@ npm run build
 
 The build artifacts will be stored in the `dist/` directory.
 
-== Development server
+=== Development server
 
 Run `npm run start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-== Running unit tests
+=== Running unit tests
 
 Run `npm run test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
 NOTE: Tests are not running at the moment!
 
-== Running end-to-end tests
+=== Running end-to-end tests
 
 Run `npm run e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
 NOTE: Tests are not running at the moment!
 
-== Code scaffolding
+=== Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-== Further help
+=== Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+== Authorization
+
+The idea is to allow login via GitHub to also support private GitHub repositories.
+
+=== Challenge: OAuth in SPA
+
+For OAuth authorization the link:https://github.com/manfredsteyer/angular-oauth2-oidc[angular-oauth2-oidc] library was used.
+If an identity provider supports OIDC the implementation is straight forward.
+
+The following files needed to be adjusted:
+
+* link:src/app/app.module.ts[]: Load the library
+* link:src/app/app.component.ts[]: Configure the GitHub OAuth endpoint
+* link:src/app/directory/directory.component.html[] and link:src/app/directory/directory.component.ts[]: Login button
+
+=== Challenge: GitHub Access Token API in SPA
+
+*Problem:* CORS access-control-allow-origin header not set in response. Therefore, cross domain requests are not possible.
+
+*Why:* GitHub wants to avoid that developers add client secrets into SPAs.
+OAuth2 also provides with the "authorization code flow" a mechanism without the need for client secret (https://www.oauth.com/oauth2-servers/single-page-apps/). Combined with PKCE it is the most secure flow (https://developer.okta.com/blog/2019/08/22/okta-authjs-pkce).
+However, GitHub does only support link:https://datatracker.ietf.org/doc/html/rfc6749#section-4.1[OAuth 2 Authorization Code Grant] and link:https://datatracker.ietf.org/doc/html/rfc8628[OAuth 2 Device Authorization Grant] as described by the link:https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps[Authorizing OAuth apps] documentation.
+Both flows are only working with confidential clients, which is not the case for SPAs. In order to ensure that these flows are not used in SPAs, GitHub does not include the link:https://developer.mozilla.org/de/docs/Web/HTTP/CORS[CORS] link:https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors/CORSMissingAllowOrigin[access-control-allow-origin] header in responses to requests to https://github.com/login/oauth/access_token.
+
+*Fix:* Custom server application which proxies requests to GitHup Access Token API and adds access-control-allow-origin header to response (see: https://github.com/ueisele/github-oauth-proxy).
+
+The configuration can be found at link:src/app/app.component.ts[]
+
+In combination with link:https://github.com/manfredsteyer/angular-oauth2-oidc[angular-oauth2-oidc] the token is automatically attached to all requests made from Angular HTTP.
+
+=== Challenge: Resolve Refs in AsyncApiStandalone with Authentication Token
+
+The AsyncAPI components are not using Angular HTTP. Therefore, the token is not attached to the requests made by AsyncApiStandalone component to resolve the references.
+
+https://github.com/asyncapi/asyncapi-react/blob/next/library/src/containers/AsyncApi/AsyncApi.tsx
+https://github.com/asyncapi/parser-js/blob/master/lib/parser.js
+
+The actual resolving of references is done by link:https://github.com/APIDevTools/json-schema-ref-parser[APIDevTools/json-schema-ref-parser].
+It supports additional link:https://github.com/APIDevTools/json-schema-ref-parser/blob/main/docs/options.md[options] like http headers.
+
+AsyncAPI components supports passing this options to the parser.
+
+Configuration of parse options: link:src/app/directory/asyncapi-details/asyncapi-react/asyncapi-react.component.ts[]
+
+However, only for all resources. Therefore, will only work with a SSO approach.
+
+=== Challenge: Authenticated Requests to raw.githubusercontent.com from SPA
+
+This is not possible!
+"Access-Control-Allow-Headers: authorization" is missing!
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers
+
+Header included in responses from api.github.com
+Therefore, authenticated only possible with references to api.github.com (raw.githubusercontent.com will not work with authentication)!
+
+Besides this, GitHub does also not support https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials
+All responses to not include Access-Control-Allow-Credentials header (https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials)
+CORS no allow credentials (https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors/CORSNotSupportingCredentials)

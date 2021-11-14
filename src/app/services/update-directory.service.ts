@@ -8,16 +8,16 @@ import {AsyncApiRefs} from '../models/attribute';
 @Injectable({ providedIn: 'root' })
 export class UpdateDirectoryService {
 
-  private gitHubUrl = 'https://api.github.com/repos/ueisele/showcase-asyncapi-api/git/trees/main'
-  private pathValidator = /^asyncapi\/.*\.(yaml|yml)$/;
+  private defaultGitHubUrl = 'https://api.github.com/repos/ueisele/showcase-asyncapi-private-api/git/trees/main'
+  private defaultPathValidator = /^asyncapi\/.*\.(yaml|yml)$/;
 
   constructor(
     private http: HttpClient) { }
 
-  getAsyncApiSummary(): Observable<AsyncApiRefs[]> {
+  getAsyncApiSummary(gitHubUrl: string = this.defaultGitHubUrl, pathValidator: RegExp = this.defaultPathValidator): Observable<AsyncApiRefs[]> {
     return new Observable<AsyncApiRefs[]>(observer => {
-      this.http.get(`${this.gitHubUrl}?recursive=1`).pipe(
-        map((result: any) => result.tree.filter((ref: any) => ref.type === 'blob' && this.pathValidator.test(ref.path))),
+      this.http.get(`${gitHubUrl}?recursive=1`).pipe(
+        map((result: any) => result.tree.filter((ref: any) => ref.type === 'blob' && pathValidator.test(ref.path))),
       ).subscribe((res: any[]) => {
         const requests = res.map(ref => this.http.get(ref.url).pipe(
           map((result: any) => YAML.parse(atob(result.content))),
